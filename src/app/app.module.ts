@@ -1,58 +1,63 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule, HammerModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
-import { LyThemeModule } from '@alyle/ui';
-import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
-import { AppComponent } from './app.component';
-import { LyIconModule } from '@alyle/ui/icon'; // Import LyIconModule
-import {
-  LyTheme2,
-  StyleRenderer,
-  LY_THEME,
-  LY_THEME_NAME,
-  LyHammerGestureConfig} from '@alyle/ui';
-import {
-  HAMMER_GESTURE_CONFIG} from '@angular/platform-browser';
+import { CommonModule, registerLocaleData } from '@angular/common';
 
-import { LyDialogModule } from '@alyle/ui/dialog';
-import { LySliderModule } from '@alyle/ui/slider';
-import { HttpClientModule } from '@angular/common/http'; // Import HttpClientModule
-// import { MatIconModule } from '@angular/material/icon';
+import { AppComponent } from './app.component';
+/** Import animations */
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+/** Import Alyle UI */
+import {
+  LyThemeModule,
+  LY_THEME,
+  LyOverlayRef,
+  LyOverlay
+} from '@alyle/ui';
+/** Import the component modules */
+import { LyButtonModule } from '@alyle/ui/button';
 import { LyToolbarModule } from '@alyle/ui/toolbar';
 import { LyImageCropperModule } from '@alyle/ui/image-cropper';
 
+/** Import themes */
+import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
+import { LySliderModule } from '@alyle/ui/slider';
+import { LyIconModule } from '@alyle/ui/icon';
+import { HttpClientModule } from '@angular/common/http';
+import { LY_DIALOG_DATA, LyDialog, LyDialogModule, LyDialogRef } from '@alyle/ui/dialog';
+// import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+// import { CropperDialog } from './cropper-dialog';
+
+
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    CommonModule,
+  imports:      [
     BrowserModule,
     BrowserAnimationsModule,
-    FormsModule,
+    CommonModule,
     HttpClientModule,
+    FormsModule,
+    // Set main theme
     LyThemeModule.setTheme('minima-light'),
-    LyIconModule,
-    LyDialogModule,
-    LySliderModule,
-    // MatIconModule,
+    // Add components
     LyToolbarModule,
     LyImageCropperModule,
+    LySliderModule,
+    LyButtonModule,
+    LyIconModule,
+    LyDialogModule,
+    // NgMultiSelectDropDownModule.forRoot(),
     HammerModule
   ],
   /** Add themes */
   providers: [
-    [ LyTheme2 ],
-    [ StyleRenderer ],
-    // Theme that will be applied to this module
-    { provide: LY_THEME_NAME, useValue: 'minima-light' },
-    { provide: LY_THEME, useClass: MinimaLight, multi: true }, // name: `minima-light`
-    { provide: LY_THEME, useClass: MinimaDark, multi: true }, // name: `minima-dark`
-    // Gestures
-    { provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig } // Required for <ly-carousel>
+    { provide: LY_THEME, useClass: MinimaLight, multi: true }, // name: \`minima-light\`
+    { provide: LY_THEME, useClass: MinimaDark, multi: true }, // name: \`minima-dark\`
+    { provide: LY_DIALOG_DATA, useValue: {} },
+    LyDialogRef,
+    LyOverlayRef,
+    LyDialog,
+    LyOverlay
   ],
-  bootstrap: [AppComponent]
+  declarations: [ AppComponent ],
+  bootstrap:    [ AppComponent ]
 })
 export class AppModule { }
